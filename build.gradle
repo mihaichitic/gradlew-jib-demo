@@ -1,0 +1,33 @@
+plugins {
+  id 'org.springframework.boot' version '3.2.0'
+  id 'java'
+  id 'com.google.cloud.tools.jib' version '3.4.1'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'jib.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.17'
+
+jib {
+  to {
+    image = 'gradlew-jib-demo'
+
+    def authUsername = project.findProperty("jib.to.auth.username") ?: 'AWS'
+    def authPassword = project.findProperty("jib.to.auth.password") ?: '123abc'
+    auth {
+      username = authUsername
+      password = authPassword
+    }
+  }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
